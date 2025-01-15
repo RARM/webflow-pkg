@@ -35,26 +35,27 @@ if __name__ == "__main__":
 
   # Sub-command for saving pages to CSV
   save_parser = subparsers.add_parser(
-    'save_pages', 
+    'save_pages',
     help='Save Webflow pages basic info to a CSV file.'
   )
   save_parser.add_argument(
-    '--output', 
-    type=str, 
-    required=True, 
+    '-o', '--output',
+    type=str,
+    required=True,
     help='The output CSV file path.'
   )
 
   # Placeholder for other sub-commands
   # other_parser = subparsers.add_parser(
-  #   'other_command', 
+  #   'other_command',
   #   help='Other command description.'
   # )
 
   args = parser.parse_args()
 
   if args.command == 'save_pages':
-    pages = webflow_utils.get_pages(API_TOKEN, SITE_ID)
+    pages = webflow_utils.list_pages(API_TOKEN, SITE_ID)
     save_pages_to_csv(pages, args.output)
+    print(f"A total of { len(pages) } pages were saved to \"{args.output}\".")
   else:
     parser.print_help()
