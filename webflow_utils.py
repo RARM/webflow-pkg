@@ -95,3 +95,56 @@ def update_page(api_token, page_id, fields):
   response.raise_for_status()
 
   return response.json()
+
+def get_live_CMS_items(token_api, collection_id):
+  """
+  Fetches a list of live CMS items from a Webflow collection.
+
+  Args:
+    token_api (str): The API key for authentication.
+    collection_id (str): The ID of the Webflow collection.
+  Returns:
+    list: A list of live CMS items from the Webflow collection.
+  Raises:
+    requests.exceptions.HTTPError: If the request to the Webflow API fails.
+  Notes:
+    The function paginates through all available items using the limit and
+    offset Webflow parameters. If an error occurs during the request,
+    the response is logged to a file specified by ERROR_FILENAME.
+  """
+  url = f"https://api.webflow.com/collections/{collection_id}/items"
+  headers = {
+    "Authorization": f"Bearer {token_api}"
+  }
+
+  all_items = []
+  offset = 0
+  limit = 100
+
+  while True:
+    params = {
+      "limit": limit,
+      "offset": offset
+    }
+
+    response = requests.get(url, headers=headers, params=params)
+
+    if response.status_code != 200:
+      print(
+        f"Error fetching CMS items.\n" +
+        f"Status code: {response.status_code}.\n" +
+        f"Response saved in \"{ERROR_FILENAME}\".\n"
+      )
+      with open(ERROR_FILENAME, 'w') as f:
+        json.dump(response.json(), f)
+    response.raise_for_status()
+
+    items = response.json()['items']
+    all_items.extend(items)
+
+    if len(items) < limit:
+      break
+
+    offset += limit
+
+  return all_items
