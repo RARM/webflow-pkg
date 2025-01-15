@@ -1,4 +1,5 @@
 import csv
+import json
 
 def pages_to_csv(pages, filename):
   with open(filename, mode='w', newline='') as file:
@@ -51,3 +52,7 @@ def cms_items_meta_to_csv(items, filename):
       item.get('isArchived', ''),
       item.get('isDraft', '')
       ])
+
+def save_json(data, filename):
+  with open(filename, 'w') as file:
+    json.dump({"data": data}, file, indent=4)
