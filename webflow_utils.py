@@ -112,7 +112,7 @@ def get_live_CMS_items(token_api, collection_id):
     offset Webflow parameters. If an error occurs during the request,
     the response is logged to a file specified by ERROR_FILENAME.
   """
-  url = f"https://api.webflow.com/collections/{collection_id}/items"
+  url = f"https://api.webflow.com/v2/collections/{collection_id}/items/live"
   headers = {
     "Authorization": f"Bearer {token_api}"
   }

@@ -35,7 +35,7 @@ def pages_to_csv(pages, filename):
       page.get('openGraph', {}).get('descriptionCopied', '')
       ])
       
-def cms_items_to_csv(items, filename):
+def cms_items_meta_to_csv(items, filename):
   with open(filename, mode='w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow([
