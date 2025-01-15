@@ -1,0 +1,9 @@
+# Python
+*__pycache__/
+.env
+
+# Local Sandbox
+pocs/
+
+# Misc
+.DS_Store
